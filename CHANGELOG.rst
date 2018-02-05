@@ -19,8 +19,76 @@
   ``mutation.index`` will still work through deprecated aliases,
   but new code should use a more cite-centric approach.
 
+- The ``TreeSequence.diffs()`` method no longer works. Please use
+  the ``TreeSequence.edge_diffs()`` method instead.
 
-**Deprecated aliases**:
+- TreeSequence.get_num_records() no longer works. Any code using
+  this or the records() iterator should be recast to work with
+  the edges() iterator and num_edges instead.
+
+
+**New features**:
+
+- The API has been made more Pythonic by replacing (e.g.)
+  ``tree.get_parent(u)`` with ``tree.parent(u)``, and
+  ``tree.get_total_branch_length()`` with ``tree.total_branch_length``.
+  The old forms have been maintained as deprecated aliases. (#64)
+
+- Support for a much more general class of tree sequence topologies.
+  For example, trees with multiple roots are fully supported.
+
+- Substantially generalised mutation model. Mutations now occur at
+  specific sites, which can be associated with zero to many mutations.
+  Each site has an ancestral state (any character string) and
+  each mutation a derived_state (any character string).
+
+- The variants() method now returns a list of alleles for each
+  site, and genotypes are indexes into this array. This is both
+  consistent with existing usage, and generalisable to any character
+  strings used as mutational states.
+
+- Add the formal concept of a sample, and distinguished from 'leaves'.
+  Change ``tracked_leaves``, etc. to ``tracked_samples`` (#225).
+  Also rename ``sample_size`` to ``num_samples`` for consistency (#227).
+
+- Efficient interchange of tree sequence data using the new Tables
+  API.
+
+- The simplify() method returns subsets of a large tree sequence.
+
+- TreeSequence.first() returns the first tree in sequence.
+
+- Windows support. Msprime is now routinely tested on Windows as
+  part of the suite of continuous integration tests.
+
+- Newick output is not supported for more general trees. (#117)
+
+- The ``genotype_matrix`` method allows efficient access to the
+  full genotype matrix. (#306)
+
+- The variants iterator no longer uses a single buffer for
+  genotype data, removing a common source of error (#253).
+
+- Unicode and ASCII output formats for SparseTree.draw().
+
+- SparseTree.draw() renders tree in the more conventional 'square
+  shoulders' format.
+
+- SparseTree.draw() by default returns an SVG string, so it can
+  be easily displayed in a Jupyter notebook. (#204)
+
+**Bug fixes**:
+
+- Duplicate site no longer possible (#159)
+
+- Fix for incorrect population sizes in DemographyDebugger (#66).
+
+**Deprecated**:
+
+- The ``records`` iterator has been deprecated, and the underlying data
+  model has moved away from the concept of coalescence records. The
+  structure of a tree sequence is now defined in terms of a set of nodes
+  and edges, essentially a normlised version of coalescence records.
 
 - Changed ``population_id`` to ``population`` in various DemographicEvent
   classes for consistency. The old ``population_id`` argument is kept as a
@@ -29,6 +97,15 @@
 - Changed ``destination`` to ``dest`` in MassMigrationEvent. The old
   ``destination`` argument is retained as a deprecated alias.
 
+- Changed ``sample_size`` to ``num_samples`` in TreeSequence and
+  SparseTree. The older versions are retained as deprecated aliases.
+
+- Change ``get_num_leaves`` to ``num_samples`` in SparseTree. The
+  ``get_num_leaves`` method (and other related methods) that have
+  been retained for backwards compatability are semantically incorrect,
+  in that they now return the number of **samples**. This should have
+  no effect on existing code, since samples and leaves were synonymous.
+  New code should use the documented ``num_samples`` form.
 
 ********************
 [0.4.0] - 2016-10-16
