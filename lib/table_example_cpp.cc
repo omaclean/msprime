@@ -67,7 +67,7 @@ main(int argc, char **argv)
     edge_table_print_state(&edges, stdout);
 
     ret = simplifier_alloc(&simplifier, 1.0, samples, 1,
-            &nodes, &edges, &migrations, &sites, NULL, 0, 0);
+            &nodes, &edges, &migrations, &sites, &mutations, 0, 0);
     if (ret < 0) {
         handle_error("simplifier_alloc", ret);
     }

@@ -21,11 +21,12 @@
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include <gsl/gsl_math.h>
 
 #include "util.h"
-#include "msprime.h"
+#include "tables.h"
 #include "object_heap.h"
 
 

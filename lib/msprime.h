@@ -42,11 +42,6 @@
 #define MSP_FILE_FORMAT_VERSION_MAJOR 10
 #define MSP_FILE_FORMAT_VERSION_MINOR 0
 
-/* Flags for simplify() */
-#define MSP_FILTER_ZERO_MUTATION_SITES 1
-
-/* Flags for dump tables */
-#define MSP_ALLOC_TABLES 1
 
 #define MSP_SAMPLE_COUNTS  1
 #define MSP_SAMPLE_LISTS   2
@@ -61,14 +56,6 @@
 #define MSP_MODEL_DIRAC 4
 #define MSP_MODEL_DTWF 5
 
-#define MSP_NODE_IS_SAMPLE 1
-
-/* The root node indicator */
-#define MSP_NULL_NODE (-1)
-/* Indicates the that the population ID has not been set. */
-#define MSP_NULL_POPULATION_ID (-1)
-/* There is no parent for a given mutation */
-#define MSP_NULL_MUTATION (-1)
 
 #define MSP_INITIALISED_MAGIC 0x1234567
 
@@ -83,54 +70,6 @@ typedef struct segment_t_t {
     struct segment_t_t *next;
 } segment_t;
 
-typedef struct {
-    uint32_t flags;
-    double time;
-    population_id_t population;
-    const char *metadata;
-    table_size_t metadata_length;
-} node_t;
-
-typedef struct _mutation_t {
-    mutation_id_t id;
-    site_id_t site;
-    node_id_t node;
-    mutation_id_t parent;
-    const char *derived_state;
-    table_size_t derived_state_length;
-    const char *metadata;
-    table_size_t metadata_length;
-    // TODO remove this and change to ID?
-    size_t index;
-} mutation_t;
-
-typedef struct {
-    site_id_t id;
-    double position;
-    const char *ancestral_state;
-    table_size_t ancestral_state_length;
-    const char *metadata;
-    table_size_t metadata_length;
-    mutation_t *mutations;
-    table_size_t mutations_length;
-} site_t;
-
-typedef struct {
-    population_id_t source;
-    population_id_t dest;
-    node_id_t node;
-    double left;
-    double right;
-    double time;
-} migration_t;
-
-typedef struct {
-    table_size_t id;
-    const char *timestamp;
-    table_size_t timestamp_length;
-    const char *record;
-    table_size_t record_length;
-} provenance_t;
 
 typedef struct {
     uint32_t left; /* TODO CHANGE THIS - not a good name! */

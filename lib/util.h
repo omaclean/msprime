@@ -29,6 +29,22 @@
     #define WARN_UNUSED
 #endif
 
+#define MSP_NODE_IS_SAMPLE 1
+
+/* The root node indicator */
+#define MSP_NULL_NODE (-1)
+/* Indicates the that the population ID has not been set. */
+#define MSP_NULL_POPULATION_ID (-1)
+/* There is no parent for a given mutation */
+#define MSP_NULL_MUTATION (-1)
+
+/* Flags for simplify() */
+#define MSP_FILTER_ZERO_MUTATION_SITES 1
+
+/* Flags for dump tables */
+#define MSP_ALLOC_TABLES 1
+
+/* Error codes */
 #define MSP_ERR_GENERIC                                             -1
 #define MSP_ERR_NO_MEMORY                                           -2
 #define MSP_ERR_IO                                                  -3

@@ -39,7 +39,7 @@ tags:
 	etags *
 
 clean:
-	rm -f main tests simulation_tests *.o *.gcda *.gcno
+	rm -f main tests simulation_tests table_example table_example_cpp *.o *.gcda *.gcno
 
 ubuntu-tests: CC=gcc
 ubuntu-tests: CFLAGS=-DH5_NO_DEPRECATED_SYMBOLS --coverage 
