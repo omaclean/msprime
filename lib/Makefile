@@ -11,7 +11,7 @@ LDFLAGS=-lgsl -lgslcblas -lhdf5 -lm
 
 HEADERS=msprime.h util.h
 COMPILED=msprime.o fenwick.o tree_sequence.o object_heap.o newick.o \
-    hapgen.o recomb_map.o mutgen.o vargen.o vcf.o ld.o avl.o table.o util.o
+    hapgen.o recomb_map.o mutgen.o vargen.o vcf.o ld.o avl.o tables.o util.o
 
 all: main tests simulation_tests table_example table_example_cpp
 
@@ -58,8 +58,8 @@ coverity:
 	tar -zcvf cov-int.tar.gz cov-int
 
 table_example: table_example.c
-	h5cc -o table_example table_example.c table.c object_heap.c avl.c util.c
+	h5cc -o table_example table_example.c tables.c object_heap.c avl.c util.c
 
 # Make sure that all the files are compiled as C code.
-table_example_cpp: table_example_cpp.cc table.o object_heap.o util.o
-	h5c++ -o table_example_cpp table_example_cpp.cc table.o object_heap.o avl.o util.o
+table_example_cpp: table_example_cpp.cc tables.o object_heap.o util.o
+	h5c++ -o table_example_cpp table_example_cpp.cc tables.o object_heap.o avl.o util.o
