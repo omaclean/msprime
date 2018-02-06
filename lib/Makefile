@@ -9,11 +9,11 @@ EXTRA_CFLAGS=-std=c99 -pedantic -Werror -Wall -W \
 CFLAGS=-g -O2 -DH5_NO_DEPRECATED_SYMBOLS
 LDFLAGS=-lgsl -lgslcblas -lhdf5 -lm
 
-HEADERS=msprime.h err.h
+HEADERS=msprime.h util.h
 COMPILED=msprime.o fenwick.o tree_sequence.o object_heap.o newick.o \
-    hapgen.o recomb_map.o mutgen.o vargen.o vcf.o ld.o avl.o table.o
+    hapgen.o recomb_map.o mutgen.o vargen.o vcf.o ld.o avl.o table.o util.o
 
-all: main tests simulation_tests
+all: main tests simulation_tests table_example
 
 # We need a seperate rule for avl.c as it won't pass the strict checks.
 avl.o: avl.c
@@ -56,3 +56,6 @@ coverity:
 	make clean
 	/home/jk/admin/software/cov-analysis-linux64-8.5.0/bin/cov-build --dir cov-int make coverity-tests
 	tar -zcvf cov-int.tar.gz cov-int
+
+table_example: table_example.c
+	h5cc -o table_example table_example.c table.c object_heap.c avl.c util.c

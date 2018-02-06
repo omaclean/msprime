@@ -16,8 +16,8 @@
 ** You should have received a copy of the GNU General Public License
 ** along with msprime.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef __ERR_H__
-#define __ERR_H__
+#ifndef __UTIL_H__
+#define __UTIL_H__
 
 /*
  * raise a compiler warning if a potentially error raising function's return
@@ -101,6 +101,8 @@
 #define MSP_ERR_MUTATION_PARENT_EQUAL                               -70
 #define MSP_ERR_MUTATION_PARENT_AFTER_CHILD                         -71
 
-#endif /*__ERR_H__*/
+const char * msp_strerror(int err);
+void __msp_safe_free(void **ptr);
+#define msp_safe_free(pointer) __msp_safe_free((void **) &(pointer))
 
-/* #define MSP_ERR_UNSORTED_MUTATION_NODES                             -45 */
+#endif /*__UTIL_H__*/

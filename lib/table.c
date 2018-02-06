@@ -24,7 +24,7 @@
 
 #include <gsl/gsl_math.h>
 
-#include "err.h"
+#include "util.h"
 #include "msprime.h"
 #include "object_heap.h"
 
@@ -32,6 +32,47 @@
 #define DEFAULT_SIZE_INCREMENT 1024
 
 #define TABLE_SEP "-----------------------------------------\n"
+
+static int
+cmp_edge_cl(const void *a, const void *b) {
+    const edge_t *ia = (const edge_t *) a;
+    const edge_t *ib = (const edge_t *) b;
+    int ret = (ia->child > ib->child) - (ia->child < ib->child);
+    if (ret == 0)  {
+        ret = (ia->left > ib->left) - (ia->left < ib->left);
+    }
+    return ret;
+}
+
+/* Squash the edges in the specified array in place. The output edges will
+ * be sorted by (child_id, left).
+ */
+int WARN_UNUSED
+squash_edges(edge_t *edges, size_t num_edges, size_t *num_output_edges)
+{
+    int ret = 0;
+    size_t j, k, l;
+    edge_t e;
+
+    qsort(edges, num_edges, sizeof(edge_t), cmp_edge_cl);
+    j = 0;
+    l = 0;
+    for (k = 1; k < num_edges; k++) {
+        assert(edges[k - 1].parent == edges[k].parent);
+        if (edges[k - 1].right != edges[k].left || edges[j].child != edges[k].child) {
+            e = edges[j];
+            e.right = edges[k - 1].right;
+            edges[l] = e;
+            j = k;
+            l++;
+        }
+    }
+    e = edges[j];
+    e.right = edges[k - 1].right;
+    edges[l] = e;
+    *num_output_edges = l + 1;
+    return ret;
+}
 
 
 /* Checks that the specified list of offsets is well-formed. */
